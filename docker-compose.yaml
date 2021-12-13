@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  postgresDB:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: subject_utec
+      POSTGRES_USER: vicflores11
+      POSTGRES_PASSWORD: root
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: vicflores2211@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - '8080:80'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    links:
+      - 'postgresDB:pgsql-server'
+
+volumes:
+  postgres_data:
+  pgadmin_data:
