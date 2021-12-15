@@ -90,7 +90,8 @@ describe('GET /users/:id', () => {
     );
     const res = await request(app)
       .get(`/api/v1/users/specific/${userId}`)
-      .set({ token: `${userLogin.token}` });
+      .set({ token: `${userLogin.token}` })
+      .set({ role: `${userLogin.user[0].roles}` });
 
     expect(res.status).toBe(200);
   });
@@ -101,9 +102,11 @@ describe('GET /users/:id', () => {
       newGeneralUser.email,
       newGeneralUser.passwd
     );
+
     const res = await request(app)
       .get(`/api/v1/users/specific/${userId}`)
-      .set({ token: `${userLogin.token}` });
+      .set({ token: `${userLogin.token}` })
+      .set({ role: `${userLogin.user[0].roles}` });
 
     expect(res.header['content-type']).toEqual(expect.stringContaining('json'));
   });
@@ -116,7 +119,8 @@ describe('GET /users/:id', () => {
     );
     const res = await request(app)
       .get(`/api/v1/users/specific/${userId}`)
-      .set({ token: `${userLogin.token}` });
+      .set({ token: `${userLogin.token}` })
+      .set({ role: `${userLogin.user[0].roles}` });
 
     expect(res.body).toBeInstanceOf(Array);
   });
@@ -129,7 +133,8 @@ describe('GET /users/:id', () => {
     );
     const res = await request(app)
       .get(`/api/v1/users/specific/${userId}`)
-      .set({ token: `${userLogin.token}` });
+      .set({ token: `${userLogin.token}` })
+      .set({ role: `${userLogin.user[0].roles}` });
 
     expect(res.body[0].id).toBeDefined();
     expect(res.body[0].firstname).toBeDefined();
