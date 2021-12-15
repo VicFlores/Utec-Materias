@@ -25,7 +25,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 router.get(
   '/specific/:id',
   verifyToken,
-  HandleCheckRole('Admin', 'Teacher'),
+  HandleCheckRole('admin', 'teacher'),
   handleJoiValidator(findUserById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
