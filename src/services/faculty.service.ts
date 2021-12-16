@@ -1,6 +1,7 @@
 import { QueryResult } from 'pg';
 import { pool } from '../database';
 import { Ifaculty } from '../interfaces/Ifaculty';
+import { httpException } from '../exception/httpException';
 
 export class Faculty {
   async findFaculties() {
@@ -13,6 +14,10 @@ export class Faculty {
       'SELECT * FROM faculties WHERE id = $1',
       [id]
     );
+
+    if (res.rowCount === 0) {
+      throw new httpException(404, 'Faculty not found');
+    }
 
     return res.rows;
   }
