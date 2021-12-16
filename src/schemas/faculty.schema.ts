@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const id = Joi.string().required();
+const id = Joi.number().integer().required();
 const name = Joi.string().required();
 const school = Joi.string().required();
 
