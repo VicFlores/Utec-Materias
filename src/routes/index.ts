@@ -5,6 +5,7 @@ import subjectRouter from './subject.route';
 import modalityRouter from './modality.route';
 import facultyRouter from './faculty.route';
 import timeStampRouter from './timeStamp.route';
+import classDetailRouter from './classDetail.route';
 import authRouter from './auth.route';
 
 const routerApi = (app: express.Application) => {
@@ -17,6 +18,7 @@ const routerApi = (app: express.Application) => {
   router.use('/modalities', modalityRouter);
   router.use('/faculties', facultyRouter);
   router.use('/timestamp', timeStampRouter);
+  router.use('/classdetail', classDetailRouter);
   router.use('/login', authRouter);
 };
 
