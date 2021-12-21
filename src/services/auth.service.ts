@@ -28,6 +28,10 @@ export class Auth {
       expiresIn: '12h',
     });
 
+    res.rows.map((user) => {
+      delete user.passwd;
+    });
+
     return {
       user: res.rows,
       token,
