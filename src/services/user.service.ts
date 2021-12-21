@@ -7,6 +7,12 @@ import { Iuser } from '../interfaces/Iuser';
 export class User {
   async findUsers() {
     const res: QueryResult = await pool.query('SELECT * FROM users');
+
+    res.rows.map((user) => {
+      delete user.passwd;
+      delete user.roles;
+    });
+
     return res.rows;
   }
 
