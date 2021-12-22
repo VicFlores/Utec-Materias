@@ -149,16 +149,14 @@ const newClassDetail = async (): Promise<IclassDetail> => {
 };
 
 const getClassDetailId = async () => {
-  const classDetailId = await serviceClassDetail.findClassDetailByFields(
+  const classDetailId = await serviceClassDetail.findClassDetailByEmail(
     newGeneralUser.email
   );
   return classDetailId[0].id;
 };
 
 const delMockInfo = async () => {
-  const classDetailId = await getClassDetailId();
-
-  await pool.query('DELETE FROM class_detail WHERE id = $1', [classDetailId]);
+  await pool.query('DELETE FROM class_detail WHERE inscribed = $1', [70]);
 
   await pool.query('DELETE FROM users WHERE email = $1', [
     newGeneralUser.email,
