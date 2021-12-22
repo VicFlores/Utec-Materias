@@ -25,24 +25,11 @@ export class ClassDetail {
     return res.rows;
   }
 
-  async findClassDetailByFields(email: string) {
+  async findClassDetailByEmail(email: string) {
     const res: QueryResult = await pool.query(
-      `SELECT class_detail.id, 
-        users.email, 
-        subjects.cod_subject,
-        sections.sections, sections.hours, sections.days,
-        modalities.type, modalities.class_type,
-        faculties.name, faculties.school
-        
-      FROM class_detail 
-        INNER JOIN users ON users.id = class_detail.id_user
-        INNER JOIN subjects ON subjects.id = class_detail.id_subject
-        INNER JOIN sections ON sections.id = class_detail.id_section
-        INNER JOIN modalities ON modalities.id = class_detail.id_modality
-        INNER JOIN faculties ON faculties.id = class_detail.id_faculty
-      
-      WHERE
-        users.email = $1`,
+      ` SELECT class_detail.id, users.email  FROM class_detail 
+          INNER JOIN users ON users.id = class_detail.id_user
+        WHERE users.email = $1 `,
 
       [email]
     );
