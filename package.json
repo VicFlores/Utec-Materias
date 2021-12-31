@@ -4,8 +4,9 @@
   "description": "Proyect to manage subjects and teachers",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node ./dist/server.js",
+    "start": "node ./dist/server.js",
     "dev": "ts-node-dev --respawn ./src/server.ts",
+    "build": "tsc",
     "test": "jest --forceExit --detectOpenHandles"
 
     
