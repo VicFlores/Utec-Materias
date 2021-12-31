@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, response, Response } from 'express';
+import { HandleCheckRole } from '../middleware/handleAuth';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
 import {
   findFacultyById,
@@ -10,17 +11,22 @@ const router = express.Router();
 
 const service = new Faculty();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const response = await service.findFaculties();
-    return res.status(200).json(response);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  HandleCheckRole('admin'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await service.findFaculties();
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/specific/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(findFacultyById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -35,6 +41,7 @@ router.get(
 
 router.post(
   '/',
+  HandleCheckRole('admin'),
   handleJoiValidator(createUpdateFaculty, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -49,6 +56,7 @@ router.post(
 
 router.put(
   '/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(createUpdateFaculty, 'body'),
   handleJoiValidator(findFacultyById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -65,6 +73,7 @@ router.put(
 
 router.delete(
   '/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(findFacultyById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

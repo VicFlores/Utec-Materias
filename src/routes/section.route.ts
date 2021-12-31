@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { HandleCheckRole } from '../middleware/handleAuth';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
 import {
   createUpdateSection,
@@ -9,17 +10,22 @@ import { Section } from '../services/section.service';
 const router = express.Router();
 const service = new Section();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const response = await service.findSections();
-    return res.status(200).json(response);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  HandleCheckRole('admin'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await service.findSections();
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/specific/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(findSectionById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,6 +40,7 @@ router.get(
 
 router.post(
   '/',
+  HandleCheckRole('admin'),
   handleJoiValidator(createUpdateSection, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -48,6 +55,7 @@ router.post(
 
 router.put(
   '/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(createUpdateSection, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -13,14 +13,18 @@ import { User } from '../services/user.service';
 const router = express.Router();
 const service = new User();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const response = await service.findUsers();
-    return res.status(200).json(response);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  HandleCheckRole('admin'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await service.findUsers();
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/specific/:id',
@@ -40,6 +44,7 @@ router.get(
 
 router.post(
   '/',
+  HandleCheckRole('admin'),
   handleJoiValidator(createUser, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -54,6 +59,7 @@ router.post(
 
 router.put(
   '/:id',
+  HandleCheckRole('admin', 'teacher'),
   handleJoiValidator(updateUser, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -69,6 +75,7 @@ router.put(
 
 router.put(
   '/special/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(updateEspecialUser, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -84,6 +91,7 @@ router.put(
 
 router.delete(
   '/:id',
+  HandleCheckRole('admin'),
   handleJoiValidator(findUserById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

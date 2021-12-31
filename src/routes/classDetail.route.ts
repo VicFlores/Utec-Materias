@@ -5,21 +5,27 @@ import {
   findClassDetailById,
 } from '../schemas/classDetail';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
+import { HandleCheckRole } from '../middleware/handleAuth';
 
 const router = express.Router();
 const service = new ClassDetail();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const response = await service.classDetails();
-    return res.status(200).json(response);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  HandleCheckRole('admin'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await service.classDetails();
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/specific/:id',
+  HandleCheckRole('admin', 'teacher'),
   handleJoiValidator(findClassDetailById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,6 +40,7 @@ router.get(
 
 router.post(
   '/',
+  HandleCheckRole('admin'),
   handleJoiValidator(createUpdateClassDetail, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
