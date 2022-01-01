@@ -8,7 +8,7 @@ export class ClassDetail {
     const res: QueryResult = await pool.query(
       ` SELECT 	class_detail.id, 
           users.firstname, users.lastname, users.email, 
-          subjects.name
+          subjects.name,
           sections.sections, sections.hours, sections.days,
           modalities.type, modalities.class_type
         
