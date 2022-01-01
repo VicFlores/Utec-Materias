@@ -8,17 +8,15 @@ export class ClassDetail {
     const res: QueryResult = await pool.query(
       ` SELECT 	class_detail.id, 
           users.firstname, users.lastname, users.email, 
-          subjects."name" , subjects.cod_subject,
+          subjects.name
           sections.sections, sections.hours, sections.days,
-          modalities.type, modalities.class_type,
-		      faculties.name, faculties.school
+          modalities.type, modalities.class_type
         
         FROM class_detail 
           INNER JOIN users ON users.id = class_detail.id_user
           INNER JOIN subjects ON subjects.id = class_detail.id_subject
           INNER JOIN sections ON sections.id = class_detail.id_section
           INNER JOIN modalities ON modalities.id = class_detail.id_modality
-	        INNER JOIN faculties ON faculties.id = class_detail.id_faculty
       `
     );
 
