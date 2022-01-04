@@ -14,7 +14,7 @@ export class Auth {
       throw new httpException(404, 'User! or password incorrect');
     }
 
-    const { passwd, id, roles } = res.rows[0];
+    const { passwd, id, roles, email: mail } = res.rows[0];
 
     const isMatch = await bcrypt.compare(pass, passwd);
 
@@ -23,6 +23,7 @@ export class Auth {
     const payload = {
       sub: id,
       roles,
+      mail,
     };
 
     const token = jwt.sign(payload, process.env.TOKEN_SECRET as string, {
