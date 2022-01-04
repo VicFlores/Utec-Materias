@@ -38,6 +38,21 @@ router.get(
   }
 );
 
+router.get(
+  '/lesson',
+  HandleCheckRole('admin', 'teacher'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email } = req.body;
+
+      const response = await service.findClassDetailByEmail(email);
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post(
   '/',
   HandleCheckRole('admin'),
