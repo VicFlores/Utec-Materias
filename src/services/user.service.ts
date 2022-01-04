@@ -22,6 +22,10 @@ export class User {
       [id]
     );
 
+    res.rows.map((user) => {
+      delete user.passwd;
+    });
+
     if (res.rowCount === 0) {
       throw new httpException(404, 'User not found');
     }
