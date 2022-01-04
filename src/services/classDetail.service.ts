@@ -42,8 +42,6 @@ export class ClassDetail {
       [email]
     );
 
-    console.log(res.rows);
-
     return res.rows;
   }
 

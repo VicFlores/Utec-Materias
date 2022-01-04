@@ -7,6 +7,7 @@ import {
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
 import { HandleCheckRole } from '../middleware/handleAuth';
 import { verifyToken } from '../middleware/verifyToken';
+import { httpException } from '../exception/httpException';
 
 const router = express.Router();
 const service = new ClassDetail();
@@ -47,7 +48,9 @@ router.get(
   HandleCheckRole('admin', 'teacher'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email } = req.body;
+      const email = req.header('email');
+
+      if (!email) throw new httpException(401, 'Access denied');
 
       const response = await service.findClassDetailByEmail(email);
       return res.status(200).json(response);
