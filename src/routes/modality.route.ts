@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { HandleCheckRole } from '../middleware/handleAuth';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
+import { verifyToken } from '../middleware/verifyToken';
 import {
   createUpdateModality,
   findModalityById,
@@ -12,6 +13,7 @@ const service = new Modality();
 
 router.get(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -25,6 +27,7 @@ router.get(
 
 router.get(
   '/specific/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findModalityById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -40,6 +43,7 @@ router.get(
 
 router.post(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUpdateModality, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -55,6 +59,7 @@ router.post(
 
 router.put(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUpdateModality, 'body'),
   handleJoiValidator(findModalityById, 'params'),
@@ -72,6 +77,7 @@ router.put(
 
 router.delete(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findModalityById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {

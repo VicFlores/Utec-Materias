@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction, request } from 'express';
 import { HandleCheckRole } from '../middleware/handleAuth';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
+import { verifyToken } from '../middleware/verifyToken';
 import {
   findSubjectById,
   createUpdateSubject,
@@ -12,6 +13,7 @@ const service = new Subject();
 
 router.get(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -25,6 +27,7 @@ router.get(
 
 router.get(
   '/specific/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findSubjectById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -40,6 +43,7 @@ router.get(
 
 router.post(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUpdateSubject, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -55,6 +59,7 @@ router.post(
 
 router.put(
   '/specific/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUpdateSubject, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -71,6 +76,7 @@ router.put(
 
 router.delete(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findSubjectById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {

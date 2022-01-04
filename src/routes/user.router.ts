@@ -15,6 +15,7 @@ const service = new User();
 
 router.get(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -44,6 +45,7 @@ router.get(
 
 router.post(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUser, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -59,6 +61,7 @@ router.post(
 
 router.put(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin', 'teacher'),
   handleJoiValidator(updateUser, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -75,6 +78,7 @@ router.put(
 
 router.put(
   '/special/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(updateEspecialUser, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -91,6 +95,7 @@ router.put(
 
 router.delete(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findUserById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {

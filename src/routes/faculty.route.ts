@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, response, Response } from 'express';
 import { HandleCheckRole } from '../middleware/handleAuth';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
+import { verifyToken } from '../middleware/verifyToken';
 import {
   findFacultyById,
   createUpdateFaculty,
@@ -13,6 +14,7 @@ const service = new Faculty();
 
 router.get(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -26,6 +28,7 @@ router.get(
 
 router.get(
   '/specific/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findFacultyById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -41,6 +44,7 @@ router.get(
 
 router.post(
   '/',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUpdateFaculty, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -56,6 +60,7 @@ router.post(
 
 router.put(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(createUpdateFaculty, 'body'),
   handleJoiValidator(findFacultyById, 'params'),
@@ -73,6 +78,7 @@ router.put(
 
 router.delete(
   '/:id',
+  verifyToken,
   HandleCheckRole('admin'),
   handleJoiValidator(findFacultyById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
