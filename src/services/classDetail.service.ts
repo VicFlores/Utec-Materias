@@ -71,7 +71,7 @@ export class ClassDetail {
   async createClassDetail(body: IclassDetail) {
     await pool.query(
       `INSERT INTO class_detail (inscribed, class_type, classroom, id_user, id_subject, id_section, id_faculty)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
       [
         body.inscribed,
         body.class_type,
