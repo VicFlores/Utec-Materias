@@ -7,9 +7,10 @@ export class ClassDetail {
   async classDetails() {
     const res: QueryResult = await pool.query(
       ` SELECT 	class_detail.id, 
-          users.firstname, users.lastname, users.email, 
-          subjects.name,
-          sections.sections, sections.hours, sections.days
+                class_detail.class_type, class_detail.classroom,
+                users.firstname, users.lastname, users.email, 
+                subjects.name,
+                sections.sections, sections.hours, sections.days
         
         FROM class_detail 
           INNER JOIN users ON users.id = class_detail.id_user
@@ -23,7 +24,8 @@ export class ClassDetail {
 
   async findClassDetailByEmail(email: string) {
     const res: QueryResult = await pool.query(
-      ` SELECT	class_detail.id, class_detail.inscribed,  
+      ` SELECT	class_detail.id, class_detail.inscribed, 
+                class_detail.class_type, class_detail.classroom,
                 users.email,
                 subjects.name,
                 sections.sections, sections.hours, sections.days
