@@ -6,7 +6,7 @@ import { IclassDetail } from '../interfaces/IclassDetail';
 export class ClassDetail {
   async classDetails() {
     const res: QueryResult = await pool.query(
-      ` SELECT 	class_detail.id, 
+      ` SELECT 	class_detail.id, class_detail.inscribed, 
                 class_detail.class_type, class_detail.classroom,
                 users.firstname, users.lastname, users.email, 
                 subjects.name,
