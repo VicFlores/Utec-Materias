@@ -42,6 +42,22 @@ router.get(
   }
 );
 
+router.get(
+  '/mytimestamp/:id',
+  verifyToken,
+  HandleCheckRole('admin', 'teacher'),
+  handleJoiValidator(findTimeStampById, 'params'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const response = await service.findTimeStampByUser(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post(
   '/',
   verifyToken,

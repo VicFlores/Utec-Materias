@@ -15,6 +15,20 @@ export class TimeStamp {
     );
     return res.rows;
   }
+  async findTimeStampByUser(id: string) {
+    const res: QueryResult = await pool.query(
+      `SELECT   public.time_stamp.id_time_stamp, public.time_stamp.start, public.time_stamp.finish,
+                public.time_stamp.students,
+                public.class_detail.id, public.class_detail.id_user
+      FROM public.time_stamp
+         INNER JOIN public.class_detail ON public.class_detail.id = public.time_stamp.id_class_detail
+
+      WHERE 
+        public.class_detail.id_user = $1`,
+      [id]
+    );
+    return res.rows;
+  }
 
   async findTimeStampById(id: string) {
     const res: QueryResult = await pool.query(
