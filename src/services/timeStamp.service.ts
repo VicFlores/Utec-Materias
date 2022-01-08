@@ -25,7 +25,7 @@ export class TimeStamp {
         FROM public.time_stamp
           INNER JOIN public.class_detail ON public.class_detail.id = public.time_stamp.id_class_detail 
       
-        WHERE id = $1`,
+        WHERE id_time_stamp = $1`,
       [id]
     );
 
