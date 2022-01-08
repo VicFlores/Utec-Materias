@@ -6,7 +6,7 @@ import { Itimestamp } from '../interfaces/Itimestamp';
 export class TimeStamp {
   async findTimeStamps() {
     const res: QueryResult = await pool.query(
-      `SELECT   public.time_stamp.id, public.time_stamp.start, public.time_stamp.finish,
+      `SELECT   public.time_stamp.id_time_stamp, public.time_stamp.start, public.time_stamp.finish,
                 public.time_stamp.students,
                 public.class_detail.id
       FROM public.time_stamp
@@ -18,7 +18,7 @@ export class TimeStamp {
 
   async findTimeStampById(id: string) {
     const res: QueryResult = await pool.query(
-      `SELECT   public.time_stamp.id, public.time_stamp.start, public.time_stamp.finish,
+      `SELECT   public.time_stamp.id_time_stamp, public.time_stamp.start, public.time_stamp.finish,
                 public.time_stamp.students,
                 public.class_detail.id
       
@@ -61,7 +61,7 @@ export class TimeStamp {
   async updateTimeStamp(id: string, body: Itimestamp) {
     await this.findTimeStampById(id);
     await pool.query(
-      'UPDATE time_stamp SET finish = $1, students = $2 WHERE id = $3',
+      'UPDATE time_stamp SET finish = $1, students = $2 WHERE id_time_stamp = $3',
       [body.finish, body.students, id]
     );
 
@@ -70,7 +70,7 @@ export class TimeStamp {
 
   async deleteTimeStamp(id: string) {
     await this.findTimeStampById(id);
-    await pool.query('DELETE FROM time_stamp WHERE id = $1', [id]);
+    await pool.query('DELETE FROM time_stamp WHERE id_time_stamp = $1', [id]);
 
     return 'Time Stamp deleted successfully';
   }
