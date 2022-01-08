@@ -1,25 +1,35 @@
 import express, { NextFunction, Request, response, Response } from 'express';
+import { HandleCheckRole } from '../middleware/handleAuth';
 import { handleJoiValidator } from '../middleware/handleJoiValidator';
+import { verifyToken } from '../middleware/verifyToken';
 import {
-  createUpdateTimeStamp,
+  createTimeStamp,
   findTimeStampById,
+  updateTimeStamp,
 } from '../schemas/timeStamp.schema';
 import { TimeStamp } from '../services/timeStamp.service';
 
 const router = express.Router();
 const service = new TimeStamp();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const response = await service.findTimeStamps();
-    return res.status(200).json(response);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  verifyToken,
+  HandleCheckRole('admin'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await service.findTimeStamps();
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/specific/:id',
+  verifyToken,
+  HandleCheckRole('admin', 'teacher'),
   handleJoiValidator(findTimeStampById, 'params'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,7 +44,9 @@ router.get(
 
 router.post(
   '/',
-  handleJoiValidator(createUpdateTimeStamp, 'body'),
+  verifyToken,
+  HandleCheckRole('admin', 'teacher'),
+  handleJoiValidator(createTimeStamp, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const body = req.body;
@@ -46,10 +58,12 @@ router.post(
   }
 );
 
-router.put(
+router.patch(
   '/:id',
+  verifyToken,
+  HandleCheckRole('admin', 'teacher'),
   handleJoiValidator(findTimeStampById, 'params'),
-  handleJoiValidator(createUpdateTimeStamp, 'body'),
+  handleJoiValidator(updateTimeStamp, 'body'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;

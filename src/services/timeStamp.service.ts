@@ -5,7 +5,11 @@ import { Itimestamp } from '../interfaces/Itimestamp';
 
 export class TimeStamp {
   async findTimeStamps() {
-    const res: QueryResult = await pool.query('SELECT * FROM time_stamp');
+    const res: QueryResult = await pool.query(
+      `SELECT * FROM public.time_stamp
+        INNER JOIN public.class_detail ON public.class_detail.id = public.time_stamp.id_class_detail
+      `
+    );
     return res.rows;
   }
 
@@ -37,8 +41,8 @@ export class TimeStamp {
 
   async createTimeStamp(body: Itimestamp) {
     await pool.query(
-      'INSERT INTO time_stamp (start, finish, students) VALUES ($1, $2, $3)',
-      [body.start, body.finish, body.students]
+      'INSERT INTO time_stamp (start, id_class_detail) VALUES ($1, $2)',
+      [body.start, body.idClassDetail]
     );
 
     return 'TimeStamp created successfully';
@@ -47,8 +51,8 @@ export class TimeStamp {
   async updateTimeStamp(id: string, body: Itimestamp) {
     await this.findTimeStampById(id);
     await pool.query(
-      'UPDATE time_stamp SET start = $1, finish = $2, students = $3 WHERE id = $4',
-      [body.start, body.finish, body.students, id]
+      'UPDATE time_stamp SET finish = $1, students = $2 WHERE id = $3',
+      [body.finish, body.students, id]
     );
 
     return 'Time Stamp modified successfully';
