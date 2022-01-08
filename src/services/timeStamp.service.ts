@@ -6,8 +6,11 @@ import { Itimestamp } from '../interfaces/Itimestamp';
 export class TimeStamp {
   async findTimeStamps() {
     const res: QueryResult = await pool.query(
-      `SELECT * FROM public.time_stamp
-        INNER JOIN public.class_detail ON public.class_detail.id = public.time_stamp.id_class_detail
+      `SELECT   public.time_stamp.id, public.time_stamp.start, public.time_stamp.finish,
+                public.time_stamp.students,
+                public.class_detail.id
+      FROM public.time_stamp
+         INNER JOIN public.class_detail ON public.class_detail.id = public.time_stamp.id_class_detail
       `
     );
     return res.rows;
@@ -15,7 +18,14 @@ export class TimeStamp {
 
   async findTimeStampById(id: string) {
     const res: QueryResult = await pool.query(
-      'SELECT * FROM time_stamp WHERE id = $1',
+      `SELECT   public.time_stamp.id, public.time_stamp.start, public.time_stamp.finish,
+                public.time_stamp.students,
+                public.class_detail.id
+      
+        FROM public.time_stamp
+          INNER JOIN public.class_detail ON public.class_detail.id = public.time_stamp.id_class_detail 
+      
+        WHERE id = $1`,
       [id]
     );
 
