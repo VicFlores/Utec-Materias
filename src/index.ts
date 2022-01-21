@@ -16,7 +16,7 @@ app.use(
     origin: [
       'http://localhost:3000',
       'http://localhost:4000',
-      'https://utec-matters.vercel.app/',
+      'https://utec-matters.vercel.app',
     ],
   })
 );
