@@ -17,6 +17,7 @@ app.use(
       'http://localhost:3000',
       'http://localhost:4000',
       'https://utec-matters.vercel.app',
+      'https://utec-materias.onrender.com',
     ],
   })
 );
